@@ -1,0 +1,22 @@
+{
+  "name": "issho-web",
+  "version": "0.0.1",
+  "description": "Web client for Issho",
+  "author": "Jesse B. Hannah <jesse@jbhannah.net>",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://github.com/issho-ni/issho-web#readme",
+  "private": true,
+  "engines": {
+    "node": ">= 11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/issho-ni/issho-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/issho-ni/issho-web/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
