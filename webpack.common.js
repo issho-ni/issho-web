@@ -1,3 +1,6 @@
+const CleanWebpackPlugin = require("clean-webpack-plugin")
+const HTMLWebpackPlugin = require("html-webpack-plugin")
+
 module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -11,4 +14,8 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HTMLWebpackPlugin({ title: "Issho Ni" }),
+  ],
 }
