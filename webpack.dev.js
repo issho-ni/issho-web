@@ -13,5 +13,10 @@ module.exports = merge(common, {
       key: process.env.TLS_KEY || path.join(__dirname, "localhost+2-key.pem"),
     },
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      GRAPHQL_ENDPOINT: JSON.stringify("https://localhost:8080/query"),
+    }),
+  ],
 })
