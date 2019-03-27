@@ -2,6 +2,10 @@
   "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "jsRules": {},
-  "rules": {},
+  "rules": {
+    "jsx-boolean-value": {
+      "options": ["never"]
+    }
+  },
   "rulesDirectory": []
 }
