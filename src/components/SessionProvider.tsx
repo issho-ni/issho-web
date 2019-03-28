@@ -27,15 +27,15 @@ export class SessionProvider extends React.Component<
     const authLink = setContext(this.setApolloContext)
 
     this.client = new ApolloClient({
-      link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
+      link: authLink.concat(httpLink),
     })
 
     this.state = {
-      token: null,
-      user: null,
       handleLogin: this.handleLogin,
       handleLogout: this.handleLogout,
+      token: null,
+      user: null,
     }
   }
 
