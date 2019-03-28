@@ -7,6 +7,8 @@ import * as React from "react"
 import { ApolloProvider, FetchResult } from "react-apollo"
 import { SessionContext, SessionContextState } from "./SessionContext"
 
+const LOCAL_STORAGE_SESSION_KEY = "session"
+
 const httpLink = new HttpLink({
   uri: GRAPHQL_ENDPOINT,
 })
@@ -39,6 +41,15 @@ export class SessionProvider extends React.Component<
     }
   }
 
+  public componentWillMount() {
+    const session = localStorage.getItem(LOCAL_STORAGE_SESSION_KEY)
+
+    if (session) {
+      const { token, user } = JSON.parse(session)
+      this.setState({ token, user })
+    }
+  }
+
   public render() {
     return (
       <SessionContext.Provider value={this.state}>
@@ -49,10 +60,13 @@ export class SessionProvider extends React.Component<
 
   private handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
     const { token, user } = data.loginUser
-    this.setState({ token, user })
+    const session = { token, user }
+    localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, JSON.stringify(session))
+    this.setState(session)
   }
 
   private handleLogout = () => {
+    localStorage.clear()
     this.setState({ token: null, user: null })
   }
 
