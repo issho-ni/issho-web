@@ -19,7 +19,7 @@ export class SessionProvider extends React.Component<
   SessionProviderProps,
   SessionContextState
 > {
-  public client: ApolloClient<NormalizedCacheObject>
+  private client: ApolloClient<NormalizedCacheObject>
 
   constructor(props: SessionProviderProps) {
     super(props)
@@ -39,15 +39,6 @@ export class SessionProvider extends React.Component<
     }
   }
 
-  public handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
-    const { token, user } = data.loginUser
-    this.setState({ token, user })
-  }
-
-  public handleLogout = () => {
-    this.setState({ token: null, user: null })
-  }
-
   public render() {
     return (
       <SessionContext.Provider value={this.state}>
@@ -56,7 +47,16 @@ export class SessionProvider extends React.Component<
     )
   }
 
-  public setApolloContext = (_: GraphQLRequest, { headers }) => {
+  private handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
+    const { token, user } = data.loginUser
+    this.setState({ token, user })
+  }
+
+  private handleLogout = () => {
+    this.setState({ token: null, user: null })
+  }
+
+  private setApolloContext = (_: GraphQLRequest, { headers }) => {
     const { token } = this.state
 
     return {
