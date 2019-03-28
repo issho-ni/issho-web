@@ -31,9 +31,13 @@ export class Login extends React.Component {
               >
                 {() => (
                   <Form>
-                    <Field type="email" name="email" />
+                    <Field type="email" name="email" autoComplete="email" />
                     <ErrorMessage name="email" component="div" />
-                    <Field type="password" name="password" />
+                    <Field
+                      type="password"
+                      name="password"
+                      autoComplete="current-password"
+                    />
                     <ErrorMessage name="password" component="div" />
                     <button type="submit">Log In</button>
                   </Form>
