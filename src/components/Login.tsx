@@ -1,7 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import gql from "graphql-tag"
 import * as React from "react"
-import { FetchResult, Mutation } from "react-apollo"
+import { Mutation } from "react-apollo"
+import { SessionContext } from "./SessionContext"
 
 const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
@@ -15,33 +16,33 @@ const LOGIN_USER = gql`
   }
 `
 
-export interface LoginProps {
-  handleLogin(result: FetchResult<LoginUserResult>): void
-}
-
-export class Login extends React.Component<LoginProps> {
+export class Login extends React.Component {
   public render() {
     return (
-      <Mutation mutation={LOGIN_USER}>
-        {(loginUser, { data }) => (
-          <Formik
-            initialValues={{ email: "", password: "" }}
-            onSubmit={values =>
-              loginUser({ variables: values }).then(this.props.handleLogin)
-            }
-          >
-            {() => (
-              <Form>
-                <Field type="email" name="email" />
-                <ErrorMessage name="email" component="div" />
-                <Field type="password" name="password" />
-                <ErrorMessage name="password" component="div" />
-                <button type="submit">Log In</button>
-              </Form>
+      <SessionContext.Consumer>
+        {({ handleLogin }) => (
+          <Mutation mutation={LOGIN_USER}>
+            {(loginUser, { data }) => (
+              <Formik
+                initialValues={{ email: "", password: "" }}
+                onSubmit={values =>
+                  loginUser({ variables: values }).then(handleLogin)
+                }
+              >
+                {() => (
+                  <Form>
+                    <Field type="email" name="email" />
+                    <ErrorMessage name="email" component="div" />
+                    <Field type="password" name="password" />
+                    <ErrorMessage name="password" component="div" />
+                    <button type="submit">Log In</button>
+                  </Form>
+                )}
+              </Formik>
             )}
-          </Formik>
+          </Mutation>
         )}
-      </Mutation>
+      </SessionContext.Consumer>
     )
   }
 }
