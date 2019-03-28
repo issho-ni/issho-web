@@ -4,7 +4,8 @@ import { GraphQLRequest } from "apollo-link"
 import { setContext } from "apollo-link-context"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
-import { ApolloProvider } from "react-apollo"
+import { ApolloProvider, FetchResult } from "react-apollo"
+import { Login } from "./Login"
 
 const httpLink = new HttpLink({
   uri: GRAPHQL_ENDPOINT,
@@ -16,6 +17,7 @@ export interface SessionManagerProps {
 
 export interface SessionManagerState {
   token?: string
+  user?: User
 }
 
 export class SessionManager extends React.Component<
@@ -36,14 +38,26 @@ export class SessionManager extends React.Component<
 
     this.state = {
       token: null,
+      user: null,
     }
   }
 
-  public render() {
-    return <ApolloProvider client={this.client} {...this.props} />
+  public handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
+    const { token, user } = data.loginUser
+    this.setState({ token, user })
   }
 
-  private setContext(_: GraphQLRequest, { headers }) {
+  public render() {
+    const { token } = this.state
+
+    return (
+      <ApolloProvider client={this.client}>
+        {token ? "Logged in" : <Login handleLogin={this.handleLogin} />}
+      </ApolloProvider>
+    )
+  }
+
+  public setContext = (_: GraphQLRequest, { headers }) => {
     const { token } = this.state
 
     return {
