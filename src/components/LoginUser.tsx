@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik } from "formik"
+import { Field, Form, Formik } from "formik"
 import gql from "graphql-tag"
 import * as React from "react"
 import { Mutation, MutationFn } from "react-apollo"
@@ -16,13 +16,24 @@ const LOGIN_USER = gql`
   }
 `
 
+interface LoginUserState {
+  error?: string
+}
+
 interface LoginUserValues {
   email: string
   password: string
 }
 
-export class LoginUser extends React.Component {
+export class LoginUser extends React.Component<{}, LoginUserState> {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   public render() {
+    const { error } = this.state
+
     return (
       <SessionContext.Consumer>
         {({ handleLogin }) => (
@@ -34,14 +45,19 @@ export class LoginUser extends React.Component {
               >
                 {() => (
                   <Form>
-                    <Field type="email" name="email" autoComplete="email" />
-                    <ErrorMessage name="email" component="div" />
+                    {error ? <span>{error}</span> : ""}
+                    <Field
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      required
+                    />
                     <Field
                       type="password"
                       name="password"
                       autoComplete="current-password"
+                      required
                     />
-                    <ErrorMessage name="password" component="div" />
                     <button type="submit">Log In</button>
                   </Form>
                 )}
@@ -57,5 +73,11 @@ export class LoginUser extends React.Component {
     loginUser: MutationFn,
     handleLogin: SessionLoginHandler
   ) => (values: LoginUserValues) =>
-    loginUser({ variables: values }).then(handleLogin)
+    loginUser({ variables: values })
+      .then(data => {
+        this.setState({ error: null })
+        return data
+      })
+      .then(handleLogin)
+      .catch(() => this.setState({ error: "Incorrect username or password" }))
 }
