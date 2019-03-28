@@ -7,6 +7,7 @@ module.exports = merge(common, {
   mode: "development",
   devServer: {
     contentBase: path.join(__dirname, "dist"),
+    historyApiFallback: true,
     port: process.env.PORT || 9000,
     https: {
       cert: process.env.TLS_CERT || path.join(__dirname, "localhost+2.pem"),
