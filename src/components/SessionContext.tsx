@@ -5,6 +5,7 @@ export interface SessionContextState {
   token?: string
   user?: User
   handleLogin(result: FetchResult<LoginUserResult>): void
+  handleLogout(): void
 }
 
 export const SessionContext = React.createContext<SessionContextState>(null)

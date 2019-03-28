@@ -35,12 +35,17 @@ export class SessionProvider extends React.Component<
       token: null,
       user: null,
       handleLogin: this.handleLogin,
+      handleLogout: this.handleLogout,
     }
   }
 
   public handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
     const { token, user } = data.loginUser
     this.setState({ token, user })
+  }
+
+  public handleLogout = () => {
+    this.setState({ token: null, user: null })
   }
 
   public render() {

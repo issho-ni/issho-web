@@ -1,7 +1,13 @@
 import * as React from "react"
+import { Logout } from "./Logout"
 
 export class Dashboard extends React.Component {
   public render() {
-    return <h2>Dashboard</h2>
+    return (
+      <div>
+        <h2>Dashboard</h2>
+        <Logout />
+      </div>
+    )
   }
 }
