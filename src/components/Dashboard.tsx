@@ -1,12 +1,12 @@
 import * as React from "react"
-import { Logout } from "./Logout"
+import { LogoutUser } from "./LogoutUser"
 
 export class Dashboard extends React.Component {
   public render() {
     return (
       <div>
         <h2>Dashboard</h2>
-        <Logout />
+        <LogoutUser />
       </div>
     )
   }

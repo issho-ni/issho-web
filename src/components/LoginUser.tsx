@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import gql from "graphql-tag"
 import * as React from "react"
-import { Mutation } from "react-apollo"
-import { SessionContext } from "./SessionContext"
+import { Mutation, MutationFn } from "react-apollo"
+import { SessionContext, SessionLoginHandler } from "./SessionContext"
 
 const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
@@ -16,18 +16,21 @@ const LOGIN_USER = gql`
   }
 `
 
-export class Login extends React.Component {
+interface LoginUserValues {
+  email: string
+  password: string
+}
+
+export class LoginUser extends React.Component {
   public render() {
     return (
       <SessionContext.Consumer>
         {({ handleLogin }) => (
           <Mutation mutation={LOGIN_USER}>
-            {(loginUser, { data }) => (
-              <Formik
+            {loginUser => (
+              <Formik<LoginUserValues>
                 initialValues={{ email: "", password: "" }}
-                onSubmit={values =>
-                  loginUser({ variables: values }).then(handleLogin)
-                }
+                onSubmit={this.handleLogin(loginUser, handleLogin)}
               >
                 {() => (
                   <Form>
@@ -49,4 +52,10 @@ export class Login extends React.Component {
       </SessionContext.Consumer>
     )
   }
+
+  private handleLogin = (
+    loginUser: MutationFn,
+    handleLogin: SessionLoginHandler
+  ) => (values: LoginUserValues) =>
+    loginUser({ variables: values }).then(handleLogin)
 }

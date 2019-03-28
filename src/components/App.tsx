@@ -1,7 +1,7 @@
 import * as React from "react"
 import { BrowserRouter as Router } from "react-router-dom"
 import { Dashboard } from "./Dashboard"
-import { Login } from "./Login"
+import { LoginUser } from "./LoginUser"
 import { ProtectedRoute } from "./ProtectedRoute"
 import { SessionProvider } from "./SessionProvider"
 
@@ -11,7 +11,7 @@ export class App extends React.Component {
       <SessionProvider>
         <Router>
           <ProtectedRoute path="/" authenticated exact component={Dashboard} />
-          <ProtectedRoute path="/login" component={Login} />
+          <ProtectedRoute path="/login" component={LoginUser} />
         </Router>
       </SessionProvider>
     )
