@@ -5,7 +5,7 @@ import { setContext } from "apollo-link-context"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
 import { ApolloProvider, FetchResult } from "react-apollo"
-import { SessionContext, SessionContextState } from "./SessionContext"
+import { SessionContext } from "./SessionContext"
 
 const LOCAL_STORAGE_SESSION_KEY = "session"
 
@@ -17,9 +17,14 @@ export interface SessionProviderProps {
   children: React.ReactNode
 }
 
+export interface SessionProviderState {
+  token?: string
+  user?: User
+}
+
 export class SessionProvider extends React.Component<
   SessionProviderProps,
-  SessionContextState
+  SessionProviderState
 > {
   private client: ApolloClient<NormalizedCacheObject>
 
@@ -33,12 +38,7 @@ export class SessionProvider extends React.Component<
       link: authLink.concat(httpLink),
     })
 
-    this.state = {
-      handleLogin: this.handleLogin,
-      handleLogout: this.handleLogout,
-      token: null,
-      user: null,
-    }
+    this.state = {}
   }
 
   public componentWillMount() {
@@ -52,10 +52,18 @@ export class SessionProvider extends React.Component<
 
   public render() {
     return (
-      <SessionContext.Provider value={this.state}>
+      <SessionContext.Provider value={this.contextState()}>
         <ApolloProvider client={this.client} {...this.props} />
       </SessionContext.Provider>
     )
+  }
+
+  private contextState() {
+    return {
+      handleLogin: this.handleLogin,
+      handleLogout: this.handleLogout,
+      ...this.state,
+    }
   }
 
   private handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
@@ -68,6 +76,7 @@ export class SessionProvider extends React.Component<
   private handleLogout = () => {
     localStorage.clear()
     this.setState({ token: null, user: null })
+    this.forceUpdate()
   }
 
   private setApolloContext = (_: GraphQLRequest, { headers }) => {
