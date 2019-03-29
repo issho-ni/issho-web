@@ -66,8 +66,11 @@ export class SessionProvider extends React.Component<
     }
   }
 
-  private handleLogin = ({ data }: FetchResult<LoginUserResult>) => {
-    const { token, user } = data.loginUser
+  private handleLogin = ({
+    data,
+  }: FetchResult<CreateUserResult | LoginUserResult>) => {
+    const { token, user } =
+      "createUser" in data ? data.createUser : data.loginUser
     const session = { token, user }
     localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, JSON.stringify(session))
     this.setState(session)

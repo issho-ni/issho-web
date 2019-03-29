@@ -1,8 +1,9 @@
+interface CreateUserResult {
+  createUser: UserWithToken
+}
+
 interface LoginUserResult {
-  loginUser: {
-    token: string
-    user?: User
-  }
+  loginUser: UserWithToken
 }
 
 interface User {
@@ -11,4 +12,9 @@ interface User {
   name?: string
   createdAt?: Date
   updatedAt?: Date
+}
+
+interface UserWithToken {
+  token: string
+  user: User
 }

@@ -7,9 +7,9 @@ import { Link } from "react-router-dom"
 import { clearState } from "../utils/state"
 import { SessionContext, SessionLoginHandler } from "./SessionContext"
 
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(input: { email: $email, password: $password }) {
+const CREATE_USER = gql`
+  mutation CreateUser($email: String!, $name: String!, $password: String!) {
+    createUser(input: { email: $email, name: $name, password: $password }) {
       token
       user {
         email
@@ -19,18 +19,19 @@ const LOGIN_USER = gql`
   }
 `
 
-interface LoginUserState {
+interface CreateUserState {
   error?: string
 }
 
-interface LoginUserValues {
+interface CreateUserValues {
   email: string
+  name: string
   password: string
 }
 
-export class LoginUser extends React.Component<
+export class CreateUser extends React.Component<
   RouteComponentProps,
-  LoginUserState
+  CreateUserState
 > {
   constructor(props: RouteComponentProps) {
     super(props)
@@ -43,15 +44,21 @@ export class LoginUser extends React.Component<
     return (
       <SessionContext.Consumer>
         {({ handleLogin }) => (
-          <Mutation mutation={LOGIN_USER}>
-            {loginUser => (
-              <Formik<LoginUserValues>
-                initialValues={{ email: "", password: "" }}
-                onSubmit={this.handleLoginUser(loginUser, handleLogin)}
+          <Mutation mutation={CREATE_USER}>
+            {createUser => (
+              <Formik<CreateUserValues>
+                initialValues={{ email: "", name: "", password: "" }}
+                onSubmit={this.handleCreateUser(createUser, handleLogin)}
               >
                 {() => (
                   <Form>
                     {error ? <span>{error}</span> : ""}
+                    <Field
+                      type="text"
+                      name="name"
+                      autoComplete="name"
+                      required
+                    />
                     <Field
                       type="email"
                       name="email"
@@ -61,11 +68,11 @@ export class LoginUser extends React.Component<
                     <Field
                       type="password"
                       name="password"
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                       required
                     />
-                    <button type="submit">Log In</button>
-                    <Link to="/join">Create Account</Link>
+                    <button type="submit">Create Account</button>
+                    <Link to="/login">Log In</Link>
                   </Form>
                 )}
               </Formik>
@@ -76,12 +83,11 @@ export class LoginUser extends React.Component<
     )
   }
 
-  private handleLoginUser = (
-    loginUser: MutationFn<LoginUserResult>,
+  private handleCreateUser = (
+    createUser: MutationFn<LoginUserResult>,
     handleLogin: SessionLoginHandler
-  ) => (values: LoginUserValues) =>
-    loginUser({ variables: values })
+  ) => (values: CreateUserValues) =>
+    createUser({ variables: values })
       .then(clearState(this, ["error"]))
       .then(handleLogin)
-      .catch(() => this.setState({ error: "Incorrect username or password" }))
 }

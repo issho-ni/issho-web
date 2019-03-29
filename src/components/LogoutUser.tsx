@@ -19,7 +19,7 @@ export class LogoutUser extends React.Component {
             {logoutUser => (
               <a
                 href="/logout"
-                onClick={this.handleLogout(logoutUser, handleLogout)}
+                onClick={this.handleLogoutUser(logoutUser, handleLogout)}
               >
                 Log out
               </a>
@@ -30,7 +30,7 @@ export class LogoutUser extends React.Component {
     )
   }
 
-  private handleLogout = (
+  private handleLogoutUser = (
     logoutUser: MutationFn,
     handleLogout: SessionLogoutHandler
   ) => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
