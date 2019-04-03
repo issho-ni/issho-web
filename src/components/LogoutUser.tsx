@@ -1,10 +1,9 @@
 import gql from "graphql-tag"
 import * as React from "react"
-import { Mutation, MutationFn } from "react-apollo"
-import { Redirect } from "react-router"
-import { SessionContext, SessionLogoutHandler } from "./SessionContext"
+import { Mutation } from "react-apollo"
+import { LogoutUserButton } from "./LogoutUserButton"
 
-const LOGOUT_USER = gql`
+export const LOGOUT_USER = gql`
   mutation LogoutUser($ok: Boolean) {
     logoutUser(input: $ok)
   }
@@ -13,29 +12,9 @@ const LOGOUT_USER = gql`
 export class LogoutUser extends React.Component {
   public render() {
     return (
-      <SessionContext.Consumer>
-        {({ handleLogout }) => (
-          <Mutation mutation={LOGOUT_USER}>
-            {logoutUser => (
-              <a
-                href="/logout"
-                onClick={this.handleLogoutUser(logoutUser, handleLogout)}
-              >
-                Log out
-              </a>
-            )}
-          </Mutation>
-        )}
-      </SessionContext.Consumer>
+      <Mutation mutation={LOGOUT_USER}>
+        {logoutUser => <LogoutUserButton {...{ logoutUser }} />}
+      </Mutation>
     )
-  }
-
-  private handleLogoutUser = (
-    logoutUser: MutationFn,
-    handleLogout: SessionLogoutHandler
-  ) => (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault()
-    logoutUser().then(handleLogout)
-    return <Redirect to="/login" />
   }
 }
