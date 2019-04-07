@@ -1,6 +1,9 @@
 import * as React from "react"
 import { LogoutUser } from "./LogoutUser"
-import { TodoList } from "./TodoList"
+
+const TodoList = React.lazy(() =>
+  import("./TodoList").then(module => ({ default: module.TodoList }))
+)
 
 export class Dashboard extends React.Component {
   public render() {
