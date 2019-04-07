@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "sourceMap": true,
-    "typeRoots": ["./typings"]
+    "lib": ["dom", "es2015"],
+    "sourceMap": true
   }
 }

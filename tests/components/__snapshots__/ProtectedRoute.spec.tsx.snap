@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProtectedRoute requiring authentication with a token renders the component 1`] = `<TestComponent />`;
+
+exports[`ProtectedRoute requiring authentication without a token redirects to /login 1`] = `
+<Redirect
+  to="/login"
+/>
+`;
+
+exports[`ProtectedRoute requiring unauthentication with a token redirects to / 1`] = `
+<Redirect
+  to="/"
+/>
+`;
+
+exports[`ProtectedRoute requiring unauthentication without a token renders the component 1`] = `<TestComponent />`;

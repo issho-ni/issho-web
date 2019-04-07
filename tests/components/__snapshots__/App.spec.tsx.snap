@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders without error 1`] = `
+<SessionProvider>
+  <ApolloProvider>
+    <BrowserRouter>
+      <ProtectedRoute
+        authenticated={true}
+        component={[Function]}
+        exact={true}
+        path="/"
+      />
+      <ProtectedRoute
+        component={[Function]}
+        path="/join"
+      />
+      <ProtectedRoute
+        component={[Function]}
+        path="/login"
+      />
+    </BrowserRouter>
+  </ApolloProvider>
+</SessionProvider>
+`;
