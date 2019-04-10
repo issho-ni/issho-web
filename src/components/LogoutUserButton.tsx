@@ -1,7 +1,7 @@
 import * as React from "react"
 import { MutationFn } from "react-apollo"
 import { Redirect } from "react-router"
-import { SessionContext } from "./SessionContext"
+import { SessionContext } from "./SessionProvider"
 
 export interface LogoutUserButtonProps {
   logoutUser: MutationFn

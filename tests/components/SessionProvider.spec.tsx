@@ -1,8 +1,10 @@
 import * as React from "react"
 import { fireEvent, render, wait, waitForElement } from "react-testing-library"
 import { mocked } from "ts-jest/utils"
-import { SessionContext } from "../../src/components/SessionContext"
-import { SessionProvider } from "../../src/components/SessionProvider"
+import {
+  SessionContext,
+  SessionProvider,
+} from "../../src/components/SessionProvider"
 
 const data = {
   loginUser: {

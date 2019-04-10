@@ -1,13 +1,19 @@
 import * as React from "react"
 import { FetchResult } from "react-apollo"
-import { SessionContext, SessionContextState } from "./SessionContext"
 
 const LOCAL_STORAGE_SESSION_KEY = "session"
 
+export type SessionLoginHandler = (result: FetchResult<LoginUserResult>) => void
+export type SessionLogoutHandler = () => void
+
 export interface SessionProviderState {
+  handleLogin: SessionLoginHandler
+  handleLogout: SessionLogoutHandler
   token?: string
   user?: User
 }
+
+export const SessionContext = React.createContext<SessionProviderState>(null)
 
 export class SessionProvider extends React.Component<
   Readonly<{}>,
@@ -15,7 +21,11 @@ export class SessionProvider extends React.Component<
 > {
   constructor(props: Readonly<{}>) {
     super(props)
-    this.state = {}
+
+    this.state = {
+      handleLogin: this.handleLogin,
+      handleLogout: this.handleLogout,
+    }
   }
 
   public componentWillMount() {
@@ -28,17 +38,7 @@ export class SessionProvider extends React.Component<
   }
 
   public render() {
-    return (
-      <SessionContext.Provider value={this.contextState()} {...this.props} />
-    )
-  }
-
-  private contextState(): SessionContextState {
-    return {
-      handleLogin: this.handleLogin,
-      handleLogout: this.handleLogout,
-      ...this.state,
-    }
+    return <SessionContext.Provider value={this.state} {...this.props} />
   }
 
   private handleLogin = ({

@@ -5,7 +5,7 @@ import { setContext } from "apollo-link-context"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
 import { ApolloProvider } from "react-apollo"
-import { SessionContext } from "./SessionContext"
+import { SessionContext } from "./SessionProvider"
 
 export interface ApolloProviderProps {
   children: React.ReactNode

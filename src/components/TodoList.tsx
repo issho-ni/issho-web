@@ -1,7 +1,7 @@
 import gql from "graphql-tag"
 import * as React from "react"
 import { Query } from "react-apollo"
-import { SessionContext } from "./SessionContext"
+import { SessionContext } from "./SessionProvider"
 import { UpdateTodo } from "./UpdateTodo"
 
 export const GET_TODOS = gql`

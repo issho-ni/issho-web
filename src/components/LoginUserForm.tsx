@@ -4,7 +4,7 @@ import { MutationFn } from "react-apollo"
 import { Link } from "react-router-dom"
 import { clearState } from "../utils/state"
 import { Field } from "./Field"
-import { SessionContext } from "./SessionContext"
+import { SessionContext } from "./SessionProvider"
 
 export interface LoginUserFormProps {
   loginUser: MutationFn<LoginUserResult>

@@ -5,7 +5,7 @@ import {
   RouteComponentProps,
   RouteProps,
 } from "react-router-dom"
-import { SessionContext } from "./SessionContext"
+import { SessionContext } from "./SessionProvider"
 
 export interface ProtectedRouteProps extends RouteProps {
   authenticated?: boolean
