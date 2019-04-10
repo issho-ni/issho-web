@@ -21,7 +21,7 @@ export const LOGIN_USER = gql`
 export class LoginUser extends React.Component {
   public render() {
     return (
-      <Mutation mutation={LOGIN_USER}>
+      <Mutation<LoginUserResult> mutation={LOGIN_USER}>
         {loginUser => <LoginUserForm {...{ loginUser }} />}
       </Mutation>
     )

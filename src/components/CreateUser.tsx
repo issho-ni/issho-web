@@ -23,7 +23,7 @@ export const CREATE_USER = gql`
 export class CreateUser extends React.Component {
   public render() {
     return (
-      <Mutation mutation={CREATE_USER}>
+      <Mutation<CreateUserResult> mutation={CREATE_USER}>
         {createUser => <CreateUserForm {...{ createUser }} />}
       </Mutation>
     )

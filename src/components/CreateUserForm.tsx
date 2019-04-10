@@ -7,7 +7,7 @@ import { Field } from "./Field"
 import { SessionContext } from "./SessionContext"
 
 export interface CreateUserFormProps {
-  createUser: MutationFn<LoginUserResult>
+  createUser: MutationFn<CreateUserResult>
 }
 
 export interface CreateUserFormState {
