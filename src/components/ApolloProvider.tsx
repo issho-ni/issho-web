@@ -33,6 +33,7 @@ class IsshoApolloProvider extends React.Component<ApolloProviderProps> {
   }
 
   public render() {
+    this.client.clearStore()
     return <ApolloProvider client={this.client} {...this.props} />
   }
 
