@@ -1,8 +1,9 @@
-import { Field, Form, Formik } from "formik"
+import { Form, Formik } from "formik"
 import * as React from "react"
 import { MutationFn } from "react-apollo"
 import { Link } from "react-router-dom"
 import { clearState } from "../utils/state"
+import { Field } from "./Field"
 import { SessionContext } from "./SessionContext"
 
 export interface LoginUserFormProps {
