@@ -16,6 +16,27 @@ exports[`App / route renders without error 1`] = `
             Test Todo
           </li>
         </ul>
+        <form>
+          <div>
+            <label
+              for="text"
+            >
+              text
+            </label>
+            <input
+              id="text"
+              name="text"
+              required=""
+              type="text"
+              value=""
+            />
+          </div>
+          <button
+            type="submit"
+          >
+            Create Todo
+          </button>
+        </form>
         <a
           href="/logout"
         >

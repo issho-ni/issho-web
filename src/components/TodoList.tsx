@@ -20,7 +20,7 @@ export class TodoList extends React.Component {
 
   public render() {
     return (
-      <Query query={GET_TODOS}>
+      <Query<GetTodosResult> query={GET_TODOS}>
         {({ loading, error, data }) => {
           if (loading) {
             return "Loading…"

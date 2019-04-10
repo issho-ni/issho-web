@@ -1,4 +1,5 @@
 import * as React from "react"
+import { CreateTodo } from "./CreateTodo"
 import { LogoutUser } from "./LogoutUser"
 
 const TodoList = React.lazy(() =>
@@ -11,6 +12,7 @@ export class Dashboard extends React.Component {
       <div>
         <h2>Dashboard</h2>
         <TodoList />
+        <CreateTodo />
         <LogoutUser />
       </div>
     )
