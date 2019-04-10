@@ -24,6 +24,11 @@ interface Todo {
   completedAt?: Date
 }
 
+interface UpdateTodoResult {
+  __typename: string
+  updateTodo: Todo
+}
+
 interface User {
   __typename?: string
   id?: string

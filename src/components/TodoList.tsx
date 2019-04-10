@@ -2,6 +2,7 @@ import gql from "graphql-tag"
 import * as React from "react"
 import { Query } from "react-apollo"
 import { SessionContext } from "./SessionContext"
+import { UpdateTodo } from "./UpdateTodo"
 
 export const GET_TODOS = gql`
   query {
@@ -31,8 +32,8 @@ export class TodoList extends React.Component {
 
           return (
             <ul>
-              {data.getTodos.map(t => (
-                <li key={t.id}>{t.text}</li>
+              {data.getTodos.map(todo => (
+                <UpdateTodo key={todo.id} {...{ todo }} />
               ))}
             </ul>
           )
