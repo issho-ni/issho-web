@@ -12,20 +12,18 @@ export interface ProtectedRouteProps extends RouteProps {
 }
 
 export class ProtectedRoute extends React.Component<ProtectedRouteProps> {
+  public static contextType = SessionContext
+  public context!: React.ContextType<typeof SessionContext>
+
   public render() {
     const { authenticated, component, ...rest } = this.props
 
-    return (
-      <SessionContext.Consumer>
-        {({ token }) => (
-          <Route render={this.renderComponent(token)} {...rest} />
-        )}
-      </SessionContext.Consumer>
-    )
+    return <Route render={this.renderComponent} {...rest} />
   }
 
-  private renderComponent = (token: string) => (props: RouteComponentProps) => {
+  private renderComponent = (props: RouteComponentProps) => {
     const { authenticated, component: Component } = this.props
+    const { token } = this.context
 
     if (token && !authenticated) {
       return <Redirect to="/" />
