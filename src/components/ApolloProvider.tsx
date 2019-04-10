@@ -4,14 +4,14 @@ import { GraphQLRequest } from "apollo-link"
 import { setContext } from "apollo-link-context"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
-import { ApolloProvider as _ApolloProvider } from "react-apollo"
+import { ApolloProvider } from "react-apollo"
 import { SessionContext } from "./SessionContext"
 
 export interface ApolloProviderProps {
   children: React.ReactNode
 }
 
-export class ApolloProvider extends React.Component<ApolloProviderProps> {
+class IsshoApolloProvider extends React.Component<ApolloProviderProps> {
   public static contextType = SessionContext
   public context!: React.ContextType<typeof SessionContext>
 
@@ -33,7 +33,7 @@ export class ApolloProvider extends React.Component<ApolloProviderProps> {
   }
 
   public render() {
-    return <_ApolloProvider client={this.client} {...this.props} />
+    return <ApolloProvider client={this.client} {...this.props} />
   }
 
   private setContext = (_: GraphQLRequest, { headers }) => ({
@@ -43,3 +43,5 @@ export class ApolloProvider extends React.Component<ApolloProviderProps> {
     },
   })
 }
+
+export { IsshoApolloProvider as ApolloProvider }

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { BrowserRouter as Router } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom"
 
 const ApolloProvider = React.lazy(() =>
   import("./ApolloProvider").then(module => ({
@@ -32,7 +32,7 @@ export class App extends React.Component {
       <React.Suspense fallback={<h1>Loading…</h1>}>
         <SessionProvider>
           <ApolloProvider>
-            <Router>
+            <BrowserRouter>
               <ProtectedRoute
                 path="/"
                 authenticated
@@ -41,7 +41,7 @@ export class App extends React.Component {
               />
               <ProtectedRoute path="/join" component={CreateUser} />
               <ProtectedRoute path="/login" component={LoginUser} />
-            </Router>
+            </BrowserRouter>
           </ApolloProvider>
         </SessionProvider>
       </React.Suspense>
