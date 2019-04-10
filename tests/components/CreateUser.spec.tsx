@@ -1,9 +1,7 @@
-import { mount } from "enzyme"
 import * as React from "react"
+import { fireEvent, wait, waitForElement } from "react-testing-library"
 import { CREATE_USER, CreateUser } from "../../src/components/CreateUser"
-import { CreateUserForm } from "../../src/components/CreateUserForm"
-import { TestWrapper } from "../TestWrapper"
-import { wait } from "../wait"
+import { render } from "../TestWrapper"
 
 const mocks = [
   {
@@ -41,81 +39,60 @@ const mocks = [
   },
 ]
 
-const wrapped = (
-  <TestWrapper {...{ mocks }}>
-    <CreateUser />
-  </TestWrapper>
-)
-const component = mount(wrapped)
+const component = () => render(<CreateUser />, { mocks })
 
-describe("CreateUser", () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
+const fillAndSubmit = async (
+  { email, name, password },
+  { getByLabelText, getByText }
+) => {
+  const emailInput = await waitForElement(() => getByLabelText(/email/i))
+  fireEvent.change(emailInput, { target: { name: "email", value: email } })
+
+  const nameInput = await waitForElement(() => getByLabelText(/name/i))
+  fireEvent.change(nameInput, { target: { name: "name", value: name } })
+
+  const passwordInput = await waitForElement(() => getByLabelText(/password/i))
+  fireEvent.change(passwordInput, {
+    target: { name: "password", value: password },
   })
 
-  it("renders without error", () => {
-    expect(component.find(CreateUser)).toMatchSnapshot()
+  const button = await waitForElement(() =>
+    getByText(/create account/i, { selector: "button" })
+  )
+  fireEvent.click(button)
+}
+
+describe("CreateUser", () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it("renders without error", async () => {
+    const { container, getByText } = component()
+    await wait(() => getByText(/create account/i, { selector: "button" }))
+
+    expect(container).toMatchSnapshot()
   })
 
   it("submits the entered values", async () => {
-    const { email, name, password } = mocks[0].request.variables
-    const persist = () => null
+    await fillAndSubmit(mocks[0].request.variables, component())
 
-    const emailInput = component.find('input[name="email"]')
-    emailInput.simulate("change", {
-      persist,
-      target: { name: "email", value: email },
-    })
-
-    const nameInput = component.find('input[name="name"]')
-    nameInput.simulate("change", {
-      persist,
-      target: { name: "name", value: name },
-    })
-
-    const passwordInput = component.find('input[name="password"]')
-    passwordInput.simulate("change", {
-      persist,
-      target: { name: "password", value: password },
-    })
-
-    const form = component.find("Form")
-    form.simulate("submit")
-
-    await wait(100)
-    expect(localStorage.setItem).toBeCalledWith(
-      "session",
-      JSON.stringify(mocks[0].result.data.createUser)
+    await wait(() =>
+      expect(localStorage.setItem).toBeCalledWith(
+        "session",
+        JSON.stringify(mocks[0].result.data.createUser)
+      )
     )
   })
 
   it("displays errors", async () => {
-    const { email, name, password } = mocks[1].request.variables
-    const persist = () => null
-
-    const emailInput = component.find('input[name="email"]')
-    emailInput.simulate("change", {
-      persist,
-      target: { name: "email", value: email },
+    const { getByLabelText, getByText } = component()
+    await fillAndSubmit(mocks[1].request.variables, {
+      getByLabelText,
+      getByText,
     })
 
-    const nameInput = component.find('input[name="name"]')
-    nameInput.simulate("change", {
-      persist,
-      target: { name: "name", value: name },
-    })
-
-    const passwordInput = component.find('input[name="password"]')
-    passwordInput.simulate("change", {
-      persist,
-      target: { name: "password", value: password },
-    })
-
-    const form = component.find("Form")
-    form.simulate("submit")
-
-    await wait(100)
+    await wait(() =>
+      getByText("Could not create an account with that e-mail address")
+    )
     expect(localStorage.setItem).not.toBeCalled()
-    expect(component.find(CreateUserForm).state()).toHaveProperty("error")
   })
 })

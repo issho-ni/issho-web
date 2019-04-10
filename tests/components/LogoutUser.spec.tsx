@@ -1,30 +1,30 @@
-import { mount } from "enzyme"
 import * as React from "react"
+import { fireEvent, wait, waitForElement } from "react-testing-library"
 import { LOGOUT_USER, LogoutUser } from "../../src/components/LogoutUser"
-import { TestWrapper } from "../TestWrapper"
-import { wait } from "../wait"
+import { render } from "../TestWrapper"
 
 const mocks = [
   { request: { query: LOGOUT_USER }, result: { data: { logoutUser: {} } } },
 ]
 
-const wrapper = (
-  <TestWrapper {...{ mocks }}>
-    <LogoutUser />
-  </TestWrapper>
-)
-const component = mount(wrapper)
+const component = () => render(<LogoutUser />, { mocks })
 
 describe("LogoutUser", () => {
-  it("renders without error", () => {
-    expect(component.find(LogoutUser)).toMatchSnapshot()
+  it("renders without error", async () => {
+    const { container, getByText } = component()
+    await wait(() => getByText(/log out/i))
+
+    expect(container).toMatchSnapshot()
   })
 
   it("calls the logout handler", async () => {
-    component.find("a").simulate("click")
+    const { container, getByText } = component()
+    const link = await waitForElement(() => getByText(/log out/i))
+    fireEvent.click(link)
 
-    await wait(100)
-    expect(localStorage.clear).toBeCalled()
-    expect(localStorage.__STORE__.session).toBeUndefined()
+    await wait(() => {
+      expect(localStorage.clear).toBeCalled()
+      expect(localStorage.__STORE__.session).toBeUndefined()
+    })
   })
 })

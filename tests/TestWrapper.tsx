@@ -1,23 +1,39 @@
 import * as React from "react"
 import { MockedProvider } from "react-apollo/test-utils"
-import { MemoryRouter } from "react-router"
+import { MemoryRouterProps } from "react-router"
+import { MemoryRouter } from "react-router-dom"
+import { render } from "react-testing-library"
 import { SessionProvider } from "../src/components/SessionProvider"
 
-export interface TestWrapperProps {
+export interface TestWrapperState extends MemoryRouterProps {
   mocks?: any
-  provider?: any
 }
 
-export class TestWrapper extends React.Component<TestWrapperProps> {
-  public render() {
-    const { mocks, ...rest } = this.props
+const TestWrapper = (state: TestWrapperState) =>
+  class extends React.Component<{}, TestWrapperState> {
+    constructor(props: Readonly<{}>) {
+      super(props)
+      this.state = state
+    }
 
-    return (
-      <SessionProvider>
-        <MockedProvider addTypename={false} {...{ mocks }}>
-          <MemoryRouter {...rest} />
-        </MockedProvider>
-      </SessionProvider>
-    )
+    public render() {
+      const { children } = this.props
+      const { mocks, ...rest } = this.state
+
+      return (
+        <React.Suspense fallback={<div />}>
+          <SessionProvider>
+            <MockedProvider addTypename={false} {...{ mocks }}>
+              <MemoryRouter {...rest}>{children}</MemoryRouter>
+            </MockedProvider>
+          </SessionProvider>
+        </React.Suspense>
+      )
+    }
   }
-}
+
+const customRender = (ui, state: TestWrapperState = {}, options = {}) =>
+  render(ui, { wrapper: TestWrapper(state), ...options })
+
+export * from "react-testing-library"
+export { customRender as render }

@@ -1,9 +1,7 @@
-import { mount } from "enzyme"
 import * as React from "react"
+import { fireEvent, wait, waitForElement } from "react-testing-library"
 import { LOGIN_USER, LoginUser } from "../../src/components/LoginUser"
-import { LoginUserForm } from "../../src/components/LoginUserForm"
-import { TestWrapper } from "../TestWrapper"
-import { wait } from "../wait"
+import { render } from "../TestWrapper"
 
 const mocks = [
   {
@@ -29,54 +27,58 @@ const mocks = [
   },
 ]
 
-const wrapped = (
-  <TestWrapper {...{ mocks }}>
-    <LoginUser />
-  </TestWrapper>
-)
-const component = mount(wrapped)
+const component = () => render(<LoginUser />, { mocks })
 
 describe("LoginUser", () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
 
-  it("renders without error", () => {
-    expect(component.find(LoginUser)).toMatchSnapshot()
+  it("renders without error", async () => {
+    const { container, getByText } = component()
+    await wait(() => getByText(/log in/i, { selector: "button" }))
+
+    expect(container).toMatchSnapshot()
   })
 
   it("submits the entered values", async () => {
     const { email, password } = mocks[0].request.variables
-    const persist = () => null
+    const { getByLabelText, getByText } = component()
 
-    const emailInput = component.find('input[name="email"]')
-    emailInput.simulate("change", {
-      persist,
+    const emailInput = await waitForElement(() => getByLabelText(/email/i))
+    fireEvent.change(emailInput, {
       target: { name: "email", value: email },
     })
 
-    const passwordInput = component.find('input[name="password"]')
-    passwordInput.simulate("change", {
-      persist,
+    const passwordInput = await waitForElement(() =>
+      getByLabelText(/password/i)
+    )
+    fireEvent.change(passwordInput, {
       target: { name: "password", value: password },
     })
 
-    const form = component.find("Form")
-    form.simulate("submit")
+    const button = await waitForElement(() =>
+      getByText(/log in/i, { selector: "button" })
+    )
+    fireEvent.click(button)
 
-    await wait(100)
-    expect(localStorage.setItem).toBeCalledWith(
-      "session",
-      JSON.stringify(mocks[0].result.data.loginUser)
+    await wait(() =>
+      expect(localStorage.setItem).toBeCalledWith(
+        "session",
+        JSON.stringify(mocks[0].result.data.loginUser)
+      )
     )
   })
 
   it("displays errors", async () => {
-    const form = component.find("Form")
-    form.simulate("submit")
+    const { getByText } = component()
 
-    await wait(100)
+    const button = await waitForElement(() =>
+      getByText(/log in/i, { selector: "button" })
+    )
+    fireEvent.click(button)
+
+    await wait(() => getByText("Incorrect e-mail address or password"))
     expect(localStorage.setItem).not.toBeCalled()
-    expect(component.find(LoginUserForm).state()).toHaveProperty("error")
   })
 })

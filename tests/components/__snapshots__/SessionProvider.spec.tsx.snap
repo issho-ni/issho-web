@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionProvider with a session in local storage empties the state and storage on logout 1`] = `
+<div>
+  <div>
+    Token:
+    <span>
+      none
+    </span>
+    <br />
+    User:
+    <span>
+      none
+    </span>
+    <br />
+    <button>
+      Log in
+    </button>
+    <button>
+      Log out
+    </button>
+  </div>
+</div>
+`;
+
+exports[`SessionProvider with a session in local storage sets the token and user in the state 1`] = `
+<div>
+  <div>
+    Token:
+    <span>
+      not-a-valid-jwt
+    </span>
+    <br />
+    User:
+    <span>
+      test@test
+    </span>
+    <br />
+    <button>
+      Log in
+    </button>
+    <button>
+      Log out
+    </button>
+  </div>
+</div>
+`;
+
+exports[`SessionProvider with empty local storage has no token or user in the state 1`] = `
+<div>
+  <div>
+    Token:
+    <span>
+      none
+    </span>
+    <br />
+    User:
+    <span>
+      none
+    </span>
+    <br />
+    <button>
+      Log in
+    </button>
+    <button>
+      Log out
+    </button>
+  </div>
+</div>
+`;
+
+exports[`SessionProvider with empty local storage writes the token and user to the state on login 1`] = `
+<div>
+  <div>
+    Token:
+    <span>
+      not-a-valid-jwt
+    </span>
+    <br />
+    User:
+    <span>
+      test@test
+    </span>
+    <br />
+    <button>
+      Log in
+    </button>
+    <button>
+      Log out
+    </button>
+  </div>
+</div>
+`;

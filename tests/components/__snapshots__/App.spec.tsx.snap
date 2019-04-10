@@ -1,24 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App renders without error 1`] = `
-<SessionProvider>
-  <ApolloProvider>
-    <BrowserRouter>
-      <ProtectedRoute
-        authenticated={true}
-        component={[Function]}
-        exact={true}
-        path="/"
-      />
-      <ProtectedRoute
-        component={[Function]}
-        path="/join"
-      />
-      <ProtectedRoute
-        component={[Function]}
-        path="/login"
-      />
-    </BrowserRouter>
-  </ApolloProvider>
-</SessionProvider>
+exports[`App / route renders without error 1`] = `
+<div>
+  <div
+    client="[object Object]"
+    style=""
+  >
+    <div>
+      <div>
+        <h2>
+          Dashboard
+        </h2>
+        <ul>
+          <li>
+            Test Todo
+          </li>
+        </ul>
+        <a
+          href="/logout"
+        >
+          Log out
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`App /join route renders without error 1`] = `
+<div>
+  <div
+    client="[object Object]"
+    style=""
+  >
+    <div>
+      <form>
+        
+        <div>
+          <label
+            for="name"
+          >
+            name
+          </label>
+          <input
+            autocomplete="name"
+            id="name"
+            name="name"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div>
+          <label
+            for="email"
+          >
+            email
+          </label>
+          <input
+            autocomplete="email"
+            id="email"
+            name="email"
+            required=""
+            type="email"
+            value=""
+          />
+        </div>
+        <div>
+          <label
+            for="password"
+          >
+            password
+          </label>
+          <input
+            autocomplete="new-password"
+            id="password"
+            name="password"
+            required=""
+            type="password"
+            value=""
+          />
+        </div>
+        <button
+          type="submit"
+        >
+          Create Account
+        </button>
+        <a
+          href="/login"
+        >
+          Log In
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`App /login route renders without error 1`] = `
+<div>
+  <div
+    client="[object Object]"
+    style=""
+  >
+    <div>
+      <form>
+        
+        <div>
+          <label
+            for="email"
+          >
+            email
+          </label>
+          <input
+            autocomplete="email"
+            id="email"
+            name="email"
+            required=""
+            type="email"
+            value=""
+          />
+        </div>
+        <div>
+          <label
+            for="password"
+          >
+            password
+          </label>
+          <input
+            autocomplete="current-password"
+            id="password"
+            name="password"
+            required=""
+            type="password"
+            value=""
+          />
+        </div>
+        <button
+          type="submit"
+        >
+          Log In
+        </button>
+        <a
+          href="/join"
+        >
+          Create Account
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
 `;
