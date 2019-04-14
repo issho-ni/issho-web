@@ -13,6 +13,9 @@ exports[`App / route renders without error 1`] = `
         </h2>
         <ul>
           <li>
+            <input
+              type="checkbox"
+            />
             Test Todo
           </li>
         </ul>
