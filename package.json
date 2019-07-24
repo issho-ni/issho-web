@@ -53,7 +53,7 @@
     "@types/react-router-dom": "^4.3.4",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
-    "apollo-link-context": "^1.0.17",
+    "apollo-link-context": "^1.0.18",
     "apollo-link-http": "^1.5.14",
     "formik": "^1.5.8",
     "graphql": "^14.4.2",
