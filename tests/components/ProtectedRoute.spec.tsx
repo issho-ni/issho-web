@@ -1,6 +1,6 @@
+import { wait } from "@testing-library/react"
 import * as React from "react"
 import { Route } from "react-router-dom"
-import { wait } from "react-testing-library"
 import { mocked } from "ts-jest/utils"
 import {
   ProtectedRoute,

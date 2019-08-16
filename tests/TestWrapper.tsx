@@ -1,8 +1,8 @@
+import { render } from "@testing-library/react"
 import * as React from "react"
 import { MockedProvider } from "react-apollo/test-utils"
 import { MemoryRouterProps } from "react-router"
 import { MemoryRouter } from "react-router-dom"
-import { render } from "react-testing-library"
 import { SessionProvider } from "../src/components/SessionProvider"
 
 export interface TestWrapperState extends MemoryRouterProps {
@@ -35,5 +35,5 @@ const TestWrapper = (state: TestWrapperState) =>
 const customRender = (ui, state: TestWrapperState = {}, options = {}) =>
   render(ui, { wrapper: TestWrapper(state), ...options })
 
-export * from "react-testing-library"
+export * from "@testing-library/react"
 export { customRender as render }

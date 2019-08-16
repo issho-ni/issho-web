@@ -1,5 +1,5 @@
+import { fireEvent, wait, waitForElement } from "@testing-library/react"
 import * as React from "react"
-import { fireEvent, wait, waitForElement } from "react-testing-library"
 import { LOGIN_USER, LoginUser } from "../../src/components/LoginUser"
 import { render } from "../TestWrapper"
 

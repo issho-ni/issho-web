@@ -1,7 +1,7 @@
+import { render, wait } from "@testing-library/react"
 import * as React from "react"
 import { MockedProvider } from "react-apollo/test-utils"
 import { StaticRouter } from "react-router-dom"
-import { render, wait } from "react-testing-library"
 import { mocked } from "ts-jest/utils"
 import { App } from "../../src/components/App"
 import { GET_TODOS } from "../../src/components/TodoList"

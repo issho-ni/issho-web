@@ -1,10 +1,7 @@
-import * as React from "react"
-import { fireEvent, render, wait, waitForElement } from "react-testing-library"
-import { mocked } from "ts-jest/utils"
-import {
-  SessionContext,
-  SessionProvider,
-} from "../../src/components/SessionProvider"
+import { fireEvent, render, wait, waitForElement } from "@testing-library/react";
+import * as React from "react";
+import { mocked } from "ts-jest/utils";
+import { SessionContext, SessionProvider } from "../../src/components/SessionProvider";
 
 const data = {
   loginUser: {
