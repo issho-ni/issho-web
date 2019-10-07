@@ -1,21 +1,19 @@
-import { Field, FieldAttributes } from "formik"
+import { Field as _Field, FieldAttributes } from "formik"
 import * as React from "react"
 
-export interface IsshoFieldProps {
+export interface FieldProps {
   label?: string
 }
 
-class IsshoField extends React.Component<FieldAttributes<IsshoFieldProps>> {
+export class Field extends React.Component<FieldAttributes<FieldProps>> {
   public render() {
     const { label } = this.props
 
     return (
       <div>
         <label htmlFor={this.props.name}>{label || this.props.name}</label>
-        <Field id={this.props.name} {...this.props} />
+        <_Field id={this.props.name} {...this.props} />
       </div>
     )
   }
 }
-
-export { IsshoField as Field }

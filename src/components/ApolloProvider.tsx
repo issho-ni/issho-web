@@ -1,4 +1,4 @@
-import { ApolloProvider } from "@apollo/react-common"
+import { ApolloProvider as _ApolloProvider } from "@apollo/react-common"
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory"
 import ApolloClient from "apollo-client"
 import { GraphQLRequest } from "apollo-link"
@@ -15,7 +15,7 @@ export interface ApolloProviderState {
   client: ApolloClient<NormalizedCacheObject>
 }
 
-class IsshoApolloProvider extends React.Component<
+export class ApolloProvider extends React.Component<
   ApolloProviderProps,
   ApolloProviderState
 > {
@@ -43,7 +43,7 @@ class IsshoApolloProvider extends React.Component<
     const { client } = this.state
     client.clearStore()
 
-    return <ApolloProvider {...{ ...this.props, client }} />
+    return <_ApolloProvider {...{ ...this.props, client }} />
   }
 
   private setContext = (_: GraphQLRequest, { headers }) => ({
@@ -53,5 +53,3 @@ class IsshoApolloProvider extends React.Component<
     },
   })
 }
-
-export { IsshoApolloProvider as ApolloProvider }
