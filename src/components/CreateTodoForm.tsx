@@ -1,11 +1,11 @@
+import { MutationFunction } from "@apollo/react-common"
 import { Form, Formik, FormikActions } from "formik"
 import * as React from "react"
-import { MutationFn } from "react-apollo"
 import { Field } from "./Field"
 import { GET_TODOS } from "./TodoList"
 
 export interface CreateTodoFormProps {
-  createTodo: MutationFn<CreateTodoResult>
+  createTodo: MutationFunction<CreateTodoResult>
 }
 
 export interface CreateTodoFormValues {

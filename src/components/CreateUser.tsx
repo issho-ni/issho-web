@@ -1,6 +1,6 @@
+import { Mutation } from "@apollo/react-components"
 import gql from "graphql-tag"
 import * as React from "react"
-import { Mutation } from "react-apollo"
 
 const CreateUserForm = React.lazy(() =>
   import("./CreateUserForm").then(module => ({

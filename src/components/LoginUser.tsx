@@ -1,6 +1,6 @@
+import { Mutation } from "@apollo/react-components"
 import gql from "graphql-tag"
 import * as React from "react"
-import { Mutation } from "react-apollo"
 
 const LoginUserForm = React.lazy(() =>
   import("./LoginUserForm").then(module => ({ default: module.LoginUserForm }))

@@ -1,4 +1,4 @@
-const CleanWebpackPlugin = require("clean-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {

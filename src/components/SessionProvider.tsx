@@ -1,9 +1,11 @@
+import { MutationFetchResult } from "@apollo/react-common"
 import * as React from "react"
-import { FetchResult } from "react-apollo"
 
 const LOCAL_STORAGE_SESSION_KEY = "session"
 
-export type SessionLoginHandler = (result: FetchResult<LoginUserResult>) => void
+export type SessionLoginHandler = (
+  result: MutationFetchResult<LoginUserResult>
+) => void
 export type SessionLogoutHandler = () => void
 
 export interface SessionProviderState {
@@ -22,18 +24,16 @@ export class SessionProvider extends React.Component<
   constructor(props: Readonly<{}>) {
     super(props)
 
+    const session = localStorage.getItem(LOCAL_STORAGE_SESSION_KEY)
+
     this.state = {
       handleLogin: this.handleLogin,
       handleLogout: this.handleLogout,
     }
-  }
-
-  public componentWillMount() {
-    const session = localStorage.getItem(LOCAL_STORAGE_SESSION_KEY)
 
     if (session) {
       const { token, user } = JSON.parse(session)
-      this.setState({ token, user })
+      Object.assign(this.state, { token, user })
     }
   }
 
@@ -43,7 +43,7 @@ export class SessionProvider extends React.Component<
 
   private handleLogin = ({
     data,
-  }: FetchResult<CreateUserResult | LoginUserResult>) => {
+  }: MutationFetchResult<CreateUserResult | LoginUserResult>) => {
     const { token, user } =
       "createUser" in data ? data.createUser : data.loginUser
     const session = { token, user }

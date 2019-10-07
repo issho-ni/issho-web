@@ -1,17 +1,21 @@
+import { MockedProvider } from "@apollo/react-testing"
 import { render } from "@testing-library/react"
 import * as React from "react"
-import { MockedProvider } from "react-apollo/test-utils"
 import { MemoryRouterProps } from "react-router"
 import { MemoryRouter } from "react-router-dom"
 import { SessionProvider } from "../src/components/SessionProvider"
+
+export interface TestWrapperProps {
+  children: React.ReactNode
+}
 
 export interface TestWrapperState extends MemoryRouterProps {
   mocks?: any
 }
 
 const TestWrapper = (state: TestWrapperState) =>
-  class extends React.Component<{}, TestWrapperState> {
-    constructor(props: Readonly<{}>) {
+  class extends React.Component<TestWrapperProps, TestWrapperState> {
+    constructor(props: Readonly<TestWrapperProps>) {
       super(props)
       this.state = state
     }
@@ -24,7 +28,7 @@ const TestWrapper = (state: TestWrapperState) =>
         <React.Suspense fallback={<div />}>
           <SessionProvider>
             <MockedProvider addTypename={false} {...{ mocks }}>
-              <MemoryRouter {...rest}>{children}</MemoryRouter>
+              <MemoryRouter {...{ ...rest, children }} />
             </MockedProvider>
           </SessionProvider>
         </React.Suspense>

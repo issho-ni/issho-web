@@ -1,4 +1,5 @@
 {
+  "allowSyntheticImports": true, // apollographql/apollo-client#5306
   "compilerOptions": {
     "jsx": "react",
     "lib": ["dom", "es2015"],

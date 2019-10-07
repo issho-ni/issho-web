@@ -1,6 +1,6 @@
+import { Query } from "@apollo/react-components"
 import gql from "graphql-tag"
 import * as React from "react"
-import { Query } from "react-apollo"
 import { SessionContext } from "./SessionProvider"
 import { UpdateTodo } from "./UpdateTodo"
 
@@ -24,10 +24,11 @@ export class TodoList extends React.Component {
       <Query<GetTodosResult> query={GET_TODOS}>
         {({ loading, error, data }) => {
           if (loading) {
-            return "Loading…"
+            return <div>Loading…</div>
           }
+
           if (error) {
-            return `Error! ${error.message}`
+            return <div>Error! {error.message}</div>
           }
 
           return (

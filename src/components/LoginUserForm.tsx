@@ -1,13 +1,13 @@
+import { MutationFunction } from "@apollo/react-common"
 import { Form, Formik } from "formik"
 import * as React from "react"
-import { MutationFn } from "react-apollo"
 import { Link } from "react-router-dom"
 import { clearState } from "../utils/state"
 import { Field } from "./Field"
 import { SessionContext } from "./SessionProvider"
 
 export interface LoginUserFormProps {
-  loginUser: MutationFn<LoginUserResult>
+  loginUser: MutationFunction<LoginUserResult>
 }
 
 export interface LoginUserFormState {

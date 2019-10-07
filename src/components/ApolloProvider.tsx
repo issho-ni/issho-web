@@ -1,21 +1,26 @@
+import { ApolloProvider } from "@apollo/react-common"
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory"
 import ApolloClient from "apollo-client"
 import { GraphQLRequest } from "apollo-link"
 import { setContext } from "apollo-link-context"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
-import { ApolloProvider } from "react-apollo"
 import { SessionContext } from "./SessionProvider"
 
 export interface ApolloProviderProps {
   children: React.ReactNode
 }
 
-class IsshoApolloProvider extends React.Component<ApolloProviderProps> {
+export interface ApolloProviderState {
+  client: ApolloClient<NormalizedCacheObject>
+}
+
+class IsshoApolloProvider extends React.Component<
+  ApolloProviderProps,
+  ApolloProviderState
+> {
   public static contextType = SessionContext
   public context!: React.ContextType<typeof SessionContext>
-
-  private client: ApolloClient<NormalizedCacheObject>
 
   constructor(props: Readonly<ApolloProviderProps>) {
     super(props)
@@ -26,15 +31,19 @@ class IsshoApolloProvider extends React.Component<ApolloProviderProps> {
 
     const authLink = setContext(this.setContext)
 
-    this.client = new ApolloClient({
+    const client = new ApolloClient({
       cache: new InMemoryCache(),
       link: authLink.concat(httpLink),
     })
+
+    this.state = { client }
   }
 
   public render() {
-    this.client.clearStore()
-    return <ApolloProvider client={this.client} {...this.props} />
+    const { client } = this.state
+    client.clearStore()
+
+    return <ApolloProvider {...{ ...this.props, client }} />
   }
 
   private setContext = (_: GraphQLRequest, { headers }) => ({

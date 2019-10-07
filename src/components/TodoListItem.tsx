@@ -1,9 +1,9 @@
+import { MutationFunction } from "@apollo/react-common"
 import * as React from "react"
-import { MutationFn } from "react-apollo"
 import { UpdateTodoProps } from "./UpdateTodo"
 
 export interface TodoListItemProps extends UpdateTodoProps {
-  updateTodo: MutationFn<UpdateTodoResult>
+  updateTodo: MutationFunction<UpdateTodoResult>
 }
 
 export class TodoListItem extends React.Component<TodoListItemProps> {

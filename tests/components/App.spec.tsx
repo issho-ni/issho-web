@@ -1,17 +1,8 @@
 import { render, wait } from "@testing-library/react"
 import * as React from "react"
-import { MockedProvider } from "react-apollo/test-utils"
 import { StaticRouter } from "react-router-dom"
 import { mocked } from "ts-jest/utils"
 import { App } from "../../src/components/App"
-import { GET_TODOS } from "../../src/components/TodoList"
-
-jest.mock("react-apollo", () => {
-  return {
-    ...jest.requireActual("react-apollo"),
-    ApolloProvider: props => <div {...props} />,
-  }
-})
 
 jest.mock("react-router-dom", () => {
   return {
@@ -20,32 +11,10 @@ jest.mock("react-router-dom", () => {
   }
 })
 
-const mocks = [
-  {
-    request: {
-      query: GET_TODOS,
-    },
-    result: {
-      data: {
-        getTodos: [
-          {
-            completedAt: null,
-            createdAt: "2019-04-05T22:41:53Z",
-            id: 1,
-            text: "Test Todo",
-          },
-        ],
-      },
-    },
-  },
-]
-
 const component = (location: string) => (
-  <MockedProvider addTypename={false} {...{ mocks }}>
-    <StaticRouter {...{ location }}>
-      <App />
-    </StaticRouter>
-  </MockedProvider>
+  <StaticRouter {...{ location }}>
+    <App />
+  </StaticRouter>
 )
 
 describe("App", () => {
@@ -60,7 +29,7 @@ describe("App", () => {
       )
 
       const { container, getByText } = render(component("/"))
-      await wait(() => getByText(/test todo/i))
+      await wait(() => getByText(/dashboard/i))
 
       expect(container).toMatchSnapshot()
     })
