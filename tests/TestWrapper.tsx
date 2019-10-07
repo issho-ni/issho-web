@@ -5,17 +5,13 @@ import { MemoryRouterProps } from "react-router"
 import { MemoryRouter } from "react-router-dom"
 import { SessionProvider } from "../src/components/SessionProvider"
 
-export interface TestWrapperProps {
-  children: React.ReactNode
-}
-
 export interface TestWrapperState extends MemoryRouterProps {
   mocks?: any
 }
 
 const TestWrapper = (state: TestWrapperState) =>
-  class extends React.Component<TestWrapperProps, TestWrapperState> {
-    constructor(props: Readonly<TestWrapperProps>) {
+  class extends React.Component<Readonly<{}>, TestWrapperState> {
+    constructor(props: Readonly<{}>) {
       super(props)
       this.state = state
     }
