@@ -1,10 +1,10 @@
 import { ApolloProvider as _ApolloProvider } from "@apollo/react-common"
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory"
 import ApolloClient from "apollo-client"
-import { GraphQLRequest } from "apollo-link"
-import { setContext } from "apollo-link-context"
+import { ApolloLink } from "apollo-link"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
+import { AuthLink } from "../lib/apollo/authLink"
 import { SessionContext } from "./SessionProvider"
 
 export interface ApolloProviderProps {
@@ -22,34 +22,29 @@ export class ApolloProvider extends React.Component<
   public static contextType = SessionContext
   public context!: React.ContextType<typeof SessionContext>
 
-  constructor(props: Readonly<ApolloProviderProps>) {
+  constructor(props: ApolloProviderProps) {
     super(props)
 
     const httpLink = new HttpLink({
       uri: GRAPHQL_ENDPOINT,
     })
 
-    const authLink = setContext(this.setContext)
+    const authLink = new AuthLink(this.getToken)
 
     const client = new ApolloClient({
       cache: new InMemoryCache(),
-      link: authLink.concat(httpLink),
+      link: ApolloLink.from([authLink, httpLink]),
     })
 
     this.state = { client }
   }
 
-  public render() {
+  public componentDidUpdate() {
     const { client } = this.state
     client.clearStore()
-
-    return <_ApolloProvider {...{ ...this.props, client }} />
   }
 
-  private setContext = (_: GraphQLRequest, { headers }) => ({
-    headers: {
-      ...headers,
-      authorization: this.context.token ? `Bearer ${this.context.token}` : "",
-    },
-  })
+  public render = () => <_ApolloProvider {...this.props} {...this.state} />
+
+  private getToken = () => this.context.token
 }

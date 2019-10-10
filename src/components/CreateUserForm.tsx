@@ -58,7 +58,10 @@ export class CreateUserForm extends React.Component<
   private handleCreateUser = (variables: CreateUserFormValues) =>
     this.props
       .createUser({ variables })
-      .then(clearState(this, ["error"]))
+      .then(data => {
+        clearState(this, ["error"])
+        return data
+      })
       .then(this.context.handleLogin)
       .catch(() =>
         this.setState({
