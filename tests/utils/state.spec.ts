@@ -3,17 +3,21 @@ import { clearState } from "../../src/utils/state"
 
 jest.mock("react")
 
+interface TestState {
+  foo: number
+  bar: number
+  baz: number
+}
+
 describe("clearState", () => {
-  const node = new React.Component({})
+  const node = new React.Component<Readonly<{}>, TestState>({})
+  node.state = { foo: 1, bar: 2, baz: 3 }
   const keys = ["foo", "bar"]
-  const data = { a: 1, b: 2 }
-  const result = clearState(node, keys)(data)
+  const newState = { ...node.state, foo: null, bar: null }
 
   it("calls setState with all given keys as null", () => {
-    expect(node.setState).toBeCalledWith({ foo: null, bar: null })
-  })
-
-  it("returns the provided data", () => {
-    expect(result).toEqual(data)
+    clearState(node, keys)
+    expect(node.setState).toBeCalledWith(newState)
+    expect(node.state).toEqual(newState)
   })
 })

@@ -56,7 +56,10 @@ export class LoginUserForm extends React.Component<
   private handleLoginUser = (variables: LoginUserFormValues) =>
     this.props
       .loginUser({ variables })
-      .then(clearState(this, ["error"]))
+      .then(data => {
+        clearState(this, ["error"])
+        return data
+      })
       .then(this.context.handleLogin)
       .catch(() =>
         this.setState({ error: "Incorrect e-mail address or password" })
