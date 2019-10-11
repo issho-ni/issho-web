@@ -1,11 +1,9 @@
 import * as React from "react"
 import { BrowserRouter } from "react-router-dom"
+import { ApolloProvider } from "./ApolloProvider"
+import { ProtectedRoute } from "./ProtectedRoute"
+import { SessionProvider } from "./SessionProvider"
 
-const ApolloProvider = React.lazy(() =>
-  import("./ApolloProvider").then(module => ({
-    default: module.ApolloProvider,
-  }))
-)
 const CreateUser = React.lazy(() =>
   import("./CreateUser").then(module => ({ default: module.CreateUser }))
 )
@@ -14,16 +12,6 @@ const Dashboard = React.lazy(() =>
 )
 const LoginUser = React.lazy(() =>
   import("./LoginUser").then(module => ({ default: module.LoginUser }))
-)
-const ProtectedRoute = React.lazy(() =>
-  import("./ProtectedRoute").then(module => ({
-    default: module.ProtectedRoute,
-  }))
-)
-const SessionProvider = React.lazy(() =>
-  import("./SessionProvider").then(module => ({
-    default: module.SessionProvider,
-  }))
 )
 
 export class App extends React.Component {
