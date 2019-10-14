@@ -17,9 +17,9 @@
     "url": "https://github.com/issho-ni/issho-web/issues"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "start:open": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config config/webpack.prod.js",
+    "start": "webpack-dev-server --config config/webpack.dev.js",
+    "start:open": "webpack-dev-server --open --config config/webpack.dev.js",
     "test": "jest"
   },
   "devDependencies": {

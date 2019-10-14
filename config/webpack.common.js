@@ -1,7 +1,9 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
+const path = require("path")
 
 module.exports = {
+  context: path.resolve(__dirname, ".."),
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
