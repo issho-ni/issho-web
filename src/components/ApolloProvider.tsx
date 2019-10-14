@@ -2,6 +2,7 @@ import { ApolloProvider as _ApolloProvider } from "@apollo/react-common"
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory"
 import ApolloClient from "apollo-client"
 import { ApolloLink } from "apollo-link"
+import { ErrorHandler, ErrorLink } from "apollo-link-error"
 import { HttpLink } from "apollo-link-http"
 import * as React from "react"
 import { AuthLink } from "../lib/apollo/authLink"
@@ -31,9 +32,11 @@ export class ApolloProvider extends React.Component<
 
     const authLink = new AuthLink(this.getToken)
 
+    const errorLink = new ErrorLink(this.handleError)
+
     const client = new ApolloClient({
       cache: new InMemoryCache(),
-      link: ApolloLink.from([authLink, httpLink]),
+      link: ApolloLink.from([authLink, errorLink, httpLink]),
     })
 
     this.state = { client }
@@ -47,4 +50,16 @@ export class ApolloProvider extends React.Component<
   public render = () => <_ApolloProvider {...this.props} {...this.state} />
 
   private getToken = () => this.context.token
+
+  private handleError: ErrorHandler = ({ graphQLErrors = [] }) => {
+    for (const err of graphQLErrors) {
+      switch (err.message) {
+        case "ERR_AUTHENTICATION_REQUIRED":
+          this.context.handleLogout()
+          break
+        default:
+          console.error(`[GraphQL Error] ${err.message}`)
+      }
+    }
+  }
 }
